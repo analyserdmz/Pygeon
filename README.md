@@ -4,6 +4,9 @@
 
 Pygeon is a Python-based reverse proxy application designed to manipulate traffic for auditing and debugging purposes. Built on top of Flask, it allows seamless proxying of requests while enabling easy header and content modifications. It still needs a lot of work, but hey, it works so far.
 
+![image](https://github.com/analyserdmz/Pygeon/assets/61113942/94ed0cea-b0fe-4002-bf4c-05c768cc6c1d)
+
+
 ## Features
 
 - Uses Flask as the web server to route traffic.
