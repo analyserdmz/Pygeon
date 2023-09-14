@@ -70,6 +70,10 @@ This software is for educational and debugging purposes only. Use responsibly an
 - Seamless support for any target domain with minimum configuration.
 - Implement a clever way to also proxy other domains/subdomains included in page links or form posts (eg. when the login form has another subdomain in its action).
 
+## Why the name "Pygeon"
+
+It comes from the combination of Python and Pigeon. Historically, pigeons have been used as messengers capable of reliably carrying important information across great distances. In covert operations, they acted as unassuming spies, bridging gaps and breaking barriers. This mirrors the software's core functionality to act as a middleman, ferrying data discreetly between a client and a server, much like a pigeon would carry messages.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
