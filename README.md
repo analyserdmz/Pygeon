@@ -69,6 +69,7 @@ This software is for educational and debugging purposes only. Use responsibly an
 ## Future plans & TODO
 
 - It should become modular.
+- SSL support (Let's Encrypt).
 - Seamless support for any target domain with minimum configuration.
 - Implement a clever way to also proxy other domains/subdomains included in page links or form posts (eg. when the login form has another subdomain in its action).
 
