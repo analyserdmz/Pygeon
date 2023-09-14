@@ -59,6 +59,7 @@ The application listens to incoming HTTP requests and forwards them to a predefi
 ## Author
 
 - Konstantinos Karakatsoulis ([analyserdmz](https://github.com/analyserdmz)) - Proud author of Lecpetex
+
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-orange.svg)](https://www.buymeacoffee.com/analyserdmz)
 
 ## Disclaimer
