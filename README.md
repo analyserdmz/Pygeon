@@ -21,12 +21,12 @@ Pygeon is a Python-based reverse proxy application designed to manipulate traffi
 
 Make sure you have Python installed on your system. Then, you can install the required packages using pip:
 
-\`\`\`bash
+```bash
 pip install Flask
 pip install requests
 pip install beautifulsoup4
 pip install colorama
-\`\`\`
+```
 
 ## Installation
 
@@ -34,9 +34,9 @@ pip install colorama
 2. Navigate to the directory containing the `PyGeon.py` script.
 3. Run the script:
 
-\`\`\`bash
+```bash
 python PyGeon.py
-\`\`\`
+```
 
 The application will start and listen on port `8887` where you can navigate with your browser to and try to log into an account right away to test it.
 
