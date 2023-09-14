@@ -2,7 +2,7 @@
 
 ## Description
 
-Pygeon is a Python-based reverse proxy application designed to manipulate traffic for auditing and debugging purposes. Built on top of Flask, it allows seamless proxying of requests while enabling easy header and content modifications.
+Pygeon is a Python-based reverse proxy application designed to manipulate traffic for auditing and debugging purposes. Built on top of Flask, it allows seamless proxying of requests while enabling easy header and content modifications. It still needs a lot of work, but hey, it works so far.
 
 ## Features
 
@@ -11,7 +11,8 @@ Pygeon is a Python-based reverse proxy application designed to manipulate traffi
 - Content manipulation to replace URLs.
 - Customizable final endpoint and reverse proxy URL.
 - Thread-safe logging with color-coded outputs.
-- Cookie and Form Data tracking for POST requests.
+- Cookie and Form Data tracking for POST requests in clear-text.
+- No need for templates whatsoever (and it'll probably stay that way).
 
 ## Prerequisites
 
@@ -34,7 +35,7 @@ pip install colorama
 python PyGeon.py
 \`\`\`
 
-The application will start and listen on port `8887`.
+The application will start and listen on port `8887` where you can navigate with your browser to and try to log into an account right away to test it.
 
 ## Configuration
 
@@ -54,10 +55,18 @@ The application listens to incoming HTTP requests and forwards them to a predefi
 
 ## Author
 
-- Konstantinos Karakatsoulis - Proud author of Lecpetex
+- Konstantinos Karakatsoulis ([analyserdmz](https://github.com/analyserdmz)) - Proud author of Lecpetex
 
 ## Disclaimer
 
 This software is for educational and debugging purposes only. Use responsibly and ensure you have permission before manipulating any real-world traffic.
 
+## Future plans & TODO
 
+- It should become modular.
+- Seamless support for any target domain with minimum configuration.
+- Implement a clever way to also proxy other domains/subdomains included in page links or form posts (eg. when the login form has another subdomain in its action).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
