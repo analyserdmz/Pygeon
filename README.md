@@ -6,6 +6,7 @@ Pygeon is a Python-based reverse proxy application designed to manipulate traffi
 
 ![ezgif-2-b3d496f4eb](https://github.com/analyserdmz/Pygeon/assets/61113942/d666549e-337c-4278-88ef-72f875efe3de)
 
+![image](https://github.com/analyserdmz/Pygeon/assets/61113942/f749ba30-0040-428b-ae24-6fae1a5fc73b)
 
 
 ## Features
@@ -18,6 +19,8 @@ Pygeon is a Python-based reverse proxy application designed to manipulate traffi
 - Cookie and Form Data tracking for POST requests in clear-text.
 - No need for templates whatsoever (and it'll probably stay that way).
 - Client identification with Client<->Proxy isolated cookie.
+- Cookie-based session storage to allow the user browse the target website further. (Needs to be tested)
+- Debug mode.
 
 ## Prerequisites
 
