@@ -64,6 +64,7 @@ The application listens to incoming HTTP requests and forwards them to a predefi
 ## Pull Requests
 
 For pull requests use the following template.
+
 ```https://github.com/analyserdmz/Pygeon/pulls?template=pull_request_template.md```
 
 ## Author
