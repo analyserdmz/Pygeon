@@ -61,6 +61,11 @@ The application listens to incoming HTTP requests and forwards them to a predefi
 - Logging form data from POST requests.
 - Displaying cookies set or changed by the remote host.
 
+## Pull Requests
+
+For pull requests use the following template.
+```https://github.com/analyserdmz/Pygeon/pulls?template=pull_request_template.md```
+
 ## Author
 
 - Konstantinos Karakatsoulis ([analyserdmz](https://github.com/analyserdmz)) - Proud author of Lecpetex
